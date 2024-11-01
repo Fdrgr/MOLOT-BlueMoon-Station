@@ -1011,6 +1011,9 @@
 	flags_1 = CONDUCT_1
 	custom_materials = list(/datum/material/iron=2000)
 	var/building = FALSE
+	// MODULAR_JUICY-ADD - Делаем дефолтный путь к объекту в виде переменной, чтобы можно было передать что за тип конструкции
+	var/obj/construction_type = /obj/structure/rack
+	// MODULAR_JUICY-ADD
 
 /obj/item/rack_parts/attackby(obj/item/W, mob/user, params)
 	if(W.tool_behaviour == TOOL_WRENCH)
@@ -1020,14 +1023,25 @@
 		. = ..()
 
 /obj/item/rack_parts/attack_self(mob/user)
+	// MODULAR_JUICY-ADD
+	if(locate(construction_type) in get_turf(user))
+		balloon_alert(user, "не хватает места!")
+		return
+	// MODULAR_JUICY-ADD
 	if(building)
 		return
 	building = TRUE
-	to_chat(user, "<span class='notice'>You start constructing a rack...</span>")
+	// MODULAR_JUICY-EDIT - Меняем надпись
+	// to_chat(user, "<span class='notice'>You start constructing a rack...</span>")	// ORIGINAL
+	to_chat(user, "<span class='notice'>You start assembling [src]...</span>")
+	// MODULAR_JUICY-EDIT
 	if(do_after(user, 50, target = user, progress=TRUE))
 		if(!user.temporarilyRemoveItemFromInventory(src))
 			return
-		var/obj/structure/rack/R = new /obj/structure/rack(user.loc)
+		// MODULAR_JUICY-EDIT - Вместо дефолтного пути задаем переменную. Ведь не только шкаф можно создать, но и просто полку на польную
+		// var/obj/structure/rack/R = new /obj/structure/rack(user.loc)	// ORIGINAL
+		var/obj/structure/R = new construction_type(user.loc)
+		// MODULAR_JUICY-EDIT
 		user.visible_message("<span class='notice'>[user] assembles \a [R].\
 			</span>", "<span class='notice'>You assemble \a [R].</span>")
 		R.add_fingerprint(user)

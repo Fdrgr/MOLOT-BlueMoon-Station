@@ -246,5 +246,9 @@
 #define RENDER_PLANE_GAME_WORLD -1
 
 #define RENDER_PLANE_LIGHTING 15
+
+// Admin popup layer
+#define ADMIN_POPUP_LAYER 1
+
 ///Layer for screentips
 #define SCREENTIP_LAYER 40

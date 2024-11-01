@@ -1,4 +1,4 @@
-#define SYNDICATE_CHALLENGE_TIMER 20000 // 20 minutes
+#define SYNDICATE_CHALLENGE_TIMER 17500 // 20 minutes
 
 /obj/machinery/computer/shuttle/syndicate
 	name = "InteQ shuttle terminal"

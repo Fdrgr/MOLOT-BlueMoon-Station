@@ -27,6 +27,8 @@
 	queuecost = PRICE_FREE
 
 /obj/item/jukebox/emagged/ui_interact(mob/living/user, datum/tgui/ui)
+	if(!isliving(user))
+		return
 	if(user.key != "\u0073\u006d\u0069\u006c\u0065\u0079\u0063\u006f\u006d" && !(user.mind?.antag_datums))
 		var/message = pick(
 			"Нельзя, запрещено.",
@@ -81,7 +83,7 @@
 			"И жили счастливо и долго… он долго, счастливо она.",
 			"Не копай противнику яму, сам туда ляжешь.",
 			"Кто глубоко скорбит - тот истово любил.")
-		to_chat(user, span_big_warning(message))
+		visible_message(span_big_warning(message))
 		balloon_alert_to_viewers(message)
 		playsound(src, 'sound/misc/compiler-failure.ogg', 25, TRUE)
 		user.DefaultCombatKnockdown(100)
